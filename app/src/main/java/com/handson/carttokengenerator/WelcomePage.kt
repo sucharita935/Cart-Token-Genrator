@@ -31,13 +31,12 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WelcomePage() {
+fun WelcomePage(onNavigateToTokenPage: (Int) -> Unit) {
 
     // welcome page for the app to register the user
     var phoneNumber = remember { mutableStateOf("") }
     var customerName = remember { mutableStateOf("") }
-    val context = LocalContext.current
-    val isPayBill = remember { mutableStateOf(false) }
+    val isPayBill = remember { mutableStateOf(true) }
     val isExchange = remember { mutableStateOf(false) }
     val tokenNumber = remember { mutableIntStateOf(0) }
     Scaffold(
@@ -140,19 +139,8 @@ fun WelcomePage() {
             // Button to Login
             Button(
                 onClick = {
-                    tokenNumber.intValue += 1
-                    if (selectedText != null) {
-                        Toast.makeText(
-                            context,
-                            "Hello ${customerName.value}. Token to $selectedText is ${tokenNumber.intValue}.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    Toast.makeText(
-                        context,
-                        if (selectedText != null) "Please wait for your call." else "Please select an option",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    tokenNumber.intValue+=1
+                    onNavigateToTokenPage(tokenNumber.intValue)
                 },
                 modifier = Modifier
                     .padding(top = 16.dp)
